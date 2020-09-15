@@ -20,12 +20,13 @@ plot_zip<-function(zip){
 	dzip<-d[d$zip_code==zip,]
 	startdate<-(as.Date(min(dzip$etl_timestamp)))
 	enddate<-(as.Date(max(dzip$etl_timestamp)))
-     plot(dzip$etl_timestamp,dzip$POS, ylim=c(0,2000), type='l')
+     plot(dzip$etl_timestamp,dzip$POS, ylim=c(0,2000), type='l', ylab="cumulative cases reconstructed philly daily reports", xlab="date")
 }
 
 add_zip<-function(zip, COL){
 	 dzip<-d[d$zip_code==zip,]
-     lines(dzip$etl_timestamp,dzip$POS, col=COL)
+     lines(dzip$etl_timestamp,dzip$POS, col=COL, lwd=2)
+     text(x=last(dzip$etl_timestamp), y=last(dzip$POS), label = zip, cex=.4, col=COL, pos=4, offset=0)
 }
 
 plot_zip(19143)
@@ -33,11 +34,13 @@ zips<-unique(d$zip_code)
 for(i in zips){
 	dzip<-d[d$zip_code==i,]
 	lines(dzip$etl_timestamp,dzip$POS, col=i)
-	text(x=last(dzip$etl_timestamp), y=last(dzip$POS), label = i, cex=.5, col=i, ltp=3)
+	text(x=last(dzip$etl_timestamp), y=last(dzip$POS), label = i, cex=.4, col=i, pos=4, offset=0)
 }
 
-
-
+#add_zip(19104, "black")
+add_zip(19121, "red")
+add_zip(19122, "red")
+add_zip(19130, "red")
 
 ###below was written by someone else--we need to stratify by zipcode
 # Daily case count by test result date
